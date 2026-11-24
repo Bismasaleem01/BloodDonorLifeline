@@ -1,6 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using BloodDonorLifeline.Data;
+using System.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Read Connection String
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not found.");
+
+// Register ApplicationDbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
